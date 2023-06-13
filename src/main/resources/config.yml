@@ -1,0 +1,10 @@
+settings:
+  log-signs: true
+  log-books: true
+  log-rename: true
+  log-to-discord: true
+
+alertPermission: ugc.alerts
+
+# Only needed to log-to-discord is true!
+discordWebhook: https://discordapp.com/api/webhooks/123456789/abcdefghijklmnopqrstuvwxyz

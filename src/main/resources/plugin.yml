@@ -1,0 +1,6 @@
+name: UGCLogging
+version: '${version}'
+main: uk.jamieisgeek.ugclogging.UGCLogging
+api-version: 1.19
+authors: [JamieIsGeek]
+description: Allows better logging of user generated content such as books and signs
