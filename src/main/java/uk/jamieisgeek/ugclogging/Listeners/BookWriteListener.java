@@ -49,6 +49,9 @@ public class BookWriteListener implements Listener {
         }
 
         String finalContent = content;
+
+        if((boolean) configController.getFromConfig("settings.only-log-filtered") && UGCLogging.containsFilteredWord(finalContent)) return;
+
         Bukkit.getOnlinePlayers()
                 .stream()
                 .filter(player ->
@@ -60,8 +63,8 @@ public class BookWriteListener implements Listener {
                         .replace("%signed%", String.valueOf(isSigned))
                         .replace("%content%", finalContent)
                 ));
-
+        String string = "Title: " + bookTitle + " Signed: " + isSigned + " Content: " + finalContent;
         if(!(boolean) configController.getFromConfig("settings.log-to-discord")) return;
-        UGCLogging.LogToDiscord(List.of("Title: " + bookTitle, "Signed: " + isSigned, "Content: " + finalContent).toArray(new String[0]), editor, "Book Edit", null);
+        UGCLogging.LogToDiscord(string, editor, "Book Edit", null);
     }
 }

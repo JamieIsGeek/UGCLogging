@@ -30,7 +30,19 @@ public final class UGCLogging extends JavaPlugin {
         getLogger().info("UGCLogging has been disabled!");
     }
 
-    public static void LogToDiscord(@NonNull String[] content, @NonNull Player player, @NonNull String type, @Nullable String location) {
+    public static boolean containsFilteredWord(@NonNull String content) {
+        String[] split = content.split(" ");
+        for (String word : configController.getFilterList()) {
+            for (String s : split) {
+                if (s.toLowerCase().contains(word.toLowerCase())) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public static void LogToDiscord(@NonNull String content, @NonNull Player player, @NonNull String type, @Nullable String location) {
         DiscordWebhook webhook = new DiscordWebhook(configController.getFromConfig("discordWebhook").toString());
         webhook.addEmbed(new DiscordWebhook.EmbedObject()
                 .setTitle(type)

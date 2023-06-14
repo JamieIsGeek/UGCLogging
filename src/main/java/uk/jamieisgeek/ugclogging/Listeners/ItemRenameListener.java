@@ -6,12 +6,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.inventory.ItemStack;
 import uk.jamieisgeek.ugclogging.ConfigController;
 import uk.jamieisgeek.ugclogging.UGCLogging;
-
-import java.util.List;
 
 public class ItemRenameListener implements Listener {
     private final ConfigController configController;
@@ -33,6 +30,8 @@ public class ItemRenameListener implements Listener {
         if(!item.hasItemMeta() || !item.getItemMeta().hasDisplayName()) return;
         String itemName = item.getItemMeta().getDisplayName();
 
+        if((boolean) configController.getFromConfig("settings.only-log-filtered") && UGCLogging.containsFilteredWord(itemName)) return;
+
         Bukkit.getOnlinePlayers()
                 .stream()
                 .filter(player ->
@@ -44,6 +43,6 @@ public class ItemRenameListener implements Listener {
                 ));
 
         if(!(boolean) configController.getFromConfig("settings.log-to-discord")) return;
-        UGCLogging.LogToDiscord(List.of(itemName).toArray(new String[0]), editor, "Item Rename", null);
+        UGCLogging.LogToDiscord(itemName, editor, "Item Rename", null);
     }
 }

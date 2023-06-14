@@ -1,9 +1,21 @@
 settings:
-  log-signs: true
-  log-books: true
-  log-rename: true
-  log-to-discord: true
 
+  # Should signs be logged?
+  log-signs: true
+
+  # Should book edits be logged?
+  log-books: true
+
+  # Should item renames be logged?
+  log-rename: true
+
+  # This will send notifications to discord if true via the discordWebhook
+  log-to-discord: false
+
+  # This will only send notifications if a word used is in the filter.yml
+  only-log-filtered: false
+
+# The permission required in-game to receive alerts
 alertPermission: ugc.alerts
 
 # Only needed to log-to-discord is true!

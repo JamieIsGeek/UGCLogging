@@ -1,16 +1,13 @@
 signAlert: |
   &6&lSign Placed
   &a%player% &7placed a sign at &a%location%
-  &f%line1%
-  &f%line2%
-  &f%line3%
-  &f%line4%
+  &f%lines%
 
 itemAlert: |
     &6&lItem Renamed
-    &a%player% &7renamed an item to &a%item%
+    &a%player% &frenamed an item to &a%item%
 
 bookAlert: |
     &6&lBook Written
-    &a%player% &7wrote a book titled &a%title%
-    &7with content: &f%content%
+    &a%player% &fwrote a book titled &a%title%
+    &fwith content: &7%content%

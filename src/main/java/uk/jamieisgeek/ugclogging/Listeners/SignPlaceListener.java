@@ -24,23 +24,33 @@ public class SignPlaceListener implements Listener {
             return;
         }
 
-        String locationString = "X: " + event.getBlock().getX() + " Y: " + event.getBlock().getY() + " Z: " + event.getBlock().getZ() + " World: " + event.getBlock().getWorld();
+        String locationString = "X: " + event.getBlock().getX() + " Y: " + event.getBlock().getY() + " Z: " + event.getBlock().getZ() + " World: " + event.getBlock().getWorld().getName();
+
+        if((boolean) configController.getFromConfig("settings.only-log-filtered") && UGCLogging.containsFilteredWord(formatLines(lines))) return;
 
         Bukkit.getOnlinePlayers()
                 .stream()
                 .filter(player ->
                         player.hasPermission(configController.getFromConfig("alertPermission").toString())
                 )
-                .forEach(player -> player.sendMessage(configController.getFromMessages("signAlert")
-                        .replace("%player%", editor.getName())
-                        .replace("%location%", locationString)
-                        .replace("%line1%", lines[0])
-                        .replace("%line2%", lines[1])
-                        .replace("%line3%", lines[2])
-                        .replace("%line4%", lines[3])
-                ));
+                .forEach(player -> {
+                    String message = configController.getFromMessages("signAlert");
+                    message = message.replace("%player%", editor.getName());
+                    message = message.replace("%location%", locationString);
+                    message = message.replace("%lines%", String.join("", formatLines(lines)));
+
+                    player.sendMessage(message);
+                });
 
         if(!(boolean) configController.getFromConfig("settings.log-to-discord")) return;
-        UGCLogging.LogToDiscord(lines, editor, "Sign Place", locationString);
+        UGCLogging.LogToDiscord(formatLines(lines), editor, "Sign Place", locationString);
+    }
+
+    private String formatLines(String[] lines) {
+        StringBuilder builder = new StringBuilder();
+        for(String line : lines) {
+            builder.append(line).append(", ");
+        }
+        return builder.toString();
     }
 }
