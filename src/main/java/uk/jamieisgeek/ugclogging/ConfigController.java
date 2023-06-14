@@ -16,27 +16,25 @@ public class ConfigController {
         this.initialize();
     }
 
-    public boolean initialize() {
+    public void initialize() {
         try {
             plugin.saveDefaultConfig();
             plugin.saveResource("messages.yml.yml", false);
 
             File messages = Arrays.stream(plugin.getDataFolder().listFiles())
-                    .filter(file -> file.getName().equals("messages.yml.yml"))
+                    .filter(file -> file.getName().equals("messages.yml"))
                     .findFirst()
                     .orElse(null);
 
             if (messages == null) {
-                return false;
+                return;
             }
 
             this.config = plugin.getConfig();
             this.messages = YamlConfiguration.loadConfiguration(messages);
 
-            return true;
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
         }
     }
 
